@@ -1,56 +1,131 @@
 services:
+  mlflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.mlflow
+    container_name: btc_mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlflow:/mlflow
+    command: >
+      sh -c "mkdir -p /mlflow/mlruns &&
+             mlflow server
+             --host 0.0.0.0
+             --port 5000
+             --backend-store-uri sqlite:////mlflow/mlflow.db
+             --default-artifact-root /mlflow/mlruns
+             --serve-artifacts"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000', timeout=3)\""]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./outputs:/app/outputs
+      - ./config:/app/config
+    environment:
+      - PYTHONPATH=/app/src
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    depends_on:
+      mlflow:
+        condition: service_started
+
   api:
     build:
       context: .
       dockerfile: Dockerfile.api
-    container_name: bitcoin-mlops-api
-    environment:
-      - PYTHONPATH=/app/src
-      - GOOGLE_SHEET_CSV_URL=${GOOGLE_SHEET_CSV_URL:-}
-      - MLFLOW_TRACKING_URI=file:/app/reports/mlruns
-    volumes:
-      - ./data:/app/data
-      - ./reports:/app/reports
-      - ./config:/app/config
+    container_name: btc_fastapi
     ports:
       - "8000:8000"
+    volumes:
+      - ./outputs:/app/outputs
+      - ./config:/app/config
+    environment:
+      - PYTHONPATH=/app/src
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    depends_on:
+      mlflow:
+        condition: service_started
+    restart: unless-stopped
 
   monitoring:
     build:
       context: .
       dockerfile: Dockerfile.monitoring
-    container_name: bitcoin-mlops-monitoring
-    volumes:
-      - ./reports:/app/reports
+    container_name: btc_monitoring
     ports:
-      - "5001:5000"
-
-  mlflow:
-    build:
-      context: .
-      dockerfile: Dockerfile.mlflow
-    container_name: bitcoin-mlops-mlflow
+      - "8050:5000"
     volumes:
-      - ./reports:/app/reports
-    ports:
-      - "5000:5000"
+      - ./outputs:/app/outputs
+    environment:
+      - PYTHONPATH=/app/src
+    restart: unless-stopped
 
-  airflow:
+  airflow-webserver:
     build:
       context: .
       dockerfile: Dockerfile.airflow
-    container_name: bitcoin-mlops-airflow
-    environment:
-      - PYTHONPATH=/app/src
-      - AIRFLOW__CORE__LOAD_EXAMPLES=false
-      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////app/airflow/airflow.db
-      - GOOGLE_SHEET_CSV_URL=${GOOGLE_SHEET_CSV_URL:-}
-    volumes:
-      - ./dags:/app/dags
-      - ./data:/app/data
-      - ./reports:/app/reports
-      - ./config:/app/config
-      - ./airflow:/app/airflow
+    container_name: btc_airflow_webserver
     ports:
       - "8080:8080"
+    volumes:
+      - ./outputs:/app/outputs
+      - ./config:/app/config
+      - ./dags:/app/dags
+      - ./airflow:/opt/airflow
+    environment:
+      - PYTHONPATH=/app/src
+      - AIRFLOW_HOME=/opt/airflow
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__CORE__DAGS_FOLDER=/app/dags
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+      - AIRFLOW__WEBSERVER__WEB_SERVER_HOST=0.0.0.0
+      - AIRFLOW__WEBSERVER__WEB_SERVER_PORT=8080
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    command: >
+      sh -c "airflow db migrate &&
+             airflow users create
+             --username admin
+             --password admin
+             --firstname Admin
+             --lastname User
+             --role Admin
+             --email admin@example.com || true &&
+             exec airflow webserver --host 0.0.0.0 --port 8080"
+    depends_on:
+      mlflow:
+        condition: service_started
+    restart: unless-stopped
+
+  airflow-scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    container_name: btc_airflow_scheduler
+    volumes:
+      - ./outputs:/app/outputs
+      - ./config:/app/config
+      - ./dags:/app/dags
+      - ./airflow:/opt/airflow
+    environment:
+      - PYTHONPATH=/app/src
+      - AIRFLOW_HOME=/opt/airflow
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__CORE__DAGS_FOLDER=/app/dags
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    command: >
+      sh -c "airflow db migrate && exec airflow scheduler"
+    depends_on:
+      - airflow-webserver
+    restart: unless-stopped

@@ -1,0 +1,14 @@
+{
+  "initial_budget": 100000.0,
+  "final_equity": 100167.04803146943,
+  "total_return_pct": 0.16704803146943004,
+  "max_drawdown_pct": 4.658575471245596,
+  "remaining_cash": 93462.0066809949,
+  "total_open_btc": 0.08467875126416866,
+  "realized_pnl": -125.59884879025253,
+  "num_buys": 38,
+  "num_sells": 169,
+  "paused": false,
+  "pause_reason": null,
+  "accounting_mismatches": 0
+}

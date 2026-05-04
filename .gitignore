@@ -1,12 +1,7 @@
 __pycache__/
+.pytest_cache/
 *.pyc
 .env
-.venv/
-.ipynb_checkpoints/
-data/raw/*.csv
-data/processed/*.csv
-reports/latest_run/
-reports/mlruns/
-config/config_cache.json
-airflow/
-*.log
+outputs/
+mlruns/
+mlflow.db

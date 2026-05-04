@@ -1,17 +1,22 @@
 FROM python:3.11-slim
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 PYTHONPATH=/app/src AIRFLOW_HOME=/app/airflow
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app/src \
+    AIRFLOW_HOME=/opt/airflow
+
 WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends git curl build-essential && rm -rf /var/lib/apt/lists/*
-COPY requirements ./requirements
-COPY pyproject.toml ./
-COPY src ./src
-COPY dags ./dags
-COPY scripts ./scripts
-COPY config ./config
-COPY dvc.yaml params.yaml README.md ./
-RUN pip install --upgrade pip \
-    && pip install "apache-airflow==2.9.3" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.9.3/constraints-3.11.txt" \
-    && pip install -r requirements/airflow.txt \
-    && pip install --no-deps -e .
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements/airflow.txt requirements/airflow.txt
+RUN pip install --no-cache-dir \
+    "apache-airflow==2.9.3" \
+    --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.9.3/constraints-3.11.txt" \
+    && pip install --no-cache-dir pandas numpy requests mlflow
+
+COPY . .
 EXPOSE 8080
-CMD ["bash", "-lc", "airflow db migrate && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com || true && airflow standalone"]
+CMD ["airflow", "webserver", "--host", "0.0.0.0", "--port", "8080"]

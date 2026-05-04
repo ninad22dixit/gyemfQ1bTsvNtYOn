@@ -1,0 +1,92 @@
+time,idx,close,raw_regime,raw_signal,final_regime,final_signal,confidence,risk_multiplier,guardrails_applied
+2025-09-10 00:00:00+00:00,63,113983.97,value_investing,buy,value_investing,hold,0.55,0.4,indicator_confirmation_failed: DCA/value buy needs RSI<=55 or price below EMA100
+2025-09-18 00:00:00+00:00,71,117117.99,swing_trading,buy,swing_trading,hold,0.55,0.4,"indicator_confirmation_failed: swing buy needs close>EMA50, EMA20>EMA50, MACD hist>0, and RSI 45-75"
+2025-09-27 00:00:00+00:00,80,109681.16,value_investing,buy,value_investing,hold,0.55,0.4,trade_cooldown_2_of_3
+2025-10-03 00:00:00+00:00,86,122318.4,swing_trading,buy,swing_trading,hold,0.55,0.4,trade_cooldown_1_of_3
+2025-10-07 00:00:00+00:00,90,121393.95,swing_trading,buy,swing_trading,hold,0.55,0.3,trade_cooldown_1_of_3
+2025-10-14 00:00:00+00:00,97,113068.0,hold,hold,hold,hold,0.55,0.44999999999999996,medium_atr_volatility_75pct_risk
+2025-10-15 00:00:00+00:00,98,110804.12,hold,hold,hold,hold,0.55,0.33749999999999997,medium_atr_volatility_75pct_risk
+2025-10-16 00:00:00+00:00,99,108198.0,hold,hold,hold,hold,0.55,0.253125,medium_atr_volatility_75pct_risk
+2025-10-17 00:00:00+00:00,100,106463.3,value_investing,buy,value_investing,buy,0.55,0.30000000000000004,medium_atr_volatility_75pct_risk
+2025-10-18 00:00:00+00:00,101,107208.91,value_investing,buy,value_investing,hold,0.55,0.11250000000000002,medium_atr_volatility_75pct_risk; trade_cooldown_1_of_3
+2025-10-19 00:00:00+00:00,102,108676.78,value_investing,hold,value_investing,hold,0.55,0.084375,medium_atr_volatility_75pct_risk
+2025-10-20 00:00:00+00:00,103,110568.06,value_investing,hold,value_investing,hold,0.55,0.07500000000000001,medium_atr_volatility_75pct_risk
+2025-10-21 00:00:00+00:00,104,108362.27,value_investing,hold,value_investing,hold,0.55,0.07500000000000001,medium_atr_volatility_75pct_risk
+2025-10-22 00:00:00+00:00,105,107585.98,value_investing,buy,value_investing,buy,0.55,0.30000000000000004,medium_atr_volatility_75pct_risk
+2025-10-23 00:00:00+00:00,106,110116.03,value_investing,buy,value_investing,buy,0.55,0.22500000000000003,medium_atr_volatility_75pct_risk
+2025-11-06 00:00:00+00:00,120,101290.5,value_investing,buy,value_investing,hold,0.55,0.3,trade_cooldown_2_of_3
+2025-11-08 00:00:00+00:00,122,102285.57,value_investing,hold,value_investing,hold,0.55,0.22499999999999998,medium_atr_volatility_75pct_risk
+2025-11-11 00:00:00+00:00,125,103009.35,value_investing,buy,value_investing,buy,0.55,0.30000000000000004,medium_atr_volatility_75pct_risk
+2025-11-12 00:00:00+00:00,126,101639.01,value_investing,buy,value_investing,buy,0.55,0.22500000000000003,medium_atr_volatility_75pct_risk
+2025-11-13 00:00:00+00:00,127,99614.54,value_investing,buy,value_investing,hold,0.55,0.084375,medium_atr_volatility_75pct_risk; trade_cooldown_1_of_3
+2025-11-14 00:00:00+00:00,128,94503.96,value_investing,hold,value_investing,hold,0.55,0.07500000000000001,medium_atr_volatility_75pct_risk
+2025-11-15 00:00:00+00:00,129,95544.94,value_investing,hold,value_investing,hold,0.55,0.07500000000000001,medium_atr_volatility_75pct_risk
+2025-11-16 00:00:00+00:00,130,94183.97,value_investing,buy,value_investing,hold,0.55,0.15000000000000002,medium_atr_volatility_75pct_risk; trade_cooldown_2_of_3
+2025-11-17 00:00:00+00:00,131,92100.6,value_investing,hold,value_investing,hold,0.55,0.11250000000000002,medium_atr_volatility_75pct_risk
+2025-11-18 00:00:00+00:00,132,92914.46,value_investing,hold,value_investing,hold,0.55,0.084375,medium_atr_volatility_75pct_risk
+2025-11-19 00:00:00+00:00,133,91461.6,value_investing,hold,value_investing,hold,0.55,0.07500000000000001,medium_atr_volatility_75pct_risk
+2025-11-20 00:00:00+00:00,134,86536.88,value_investing,hold,value_investing,hold,0.55,0.07500000000000001,medium_atr_volatility_75pct_risk
+2025-11-21 00:00:00+00:00,135,85068.88,value_investing,buy,value_investing,hold,0.55,0.15000000000000002,medium_atr_volatility_75pct_risk; trade_cooldown_1_of_3
+2025-11-22 00:00:00+00:00,136,84684.0,value_investing,hold,value_investing,hold,0.55,0.11250000000000002,medium_atr_volatility_75pct_risk
+2025-11-23 00:00:00+00:00,137,86808.28,value_investing,hold,value_investing,hold,0.55,0.084375,medium_atr_volatility_75pct_risk
+2025-11-24 00:00:00+00:00,138,88266.2,value_investing,hold,value_investing,hold,0.55,0.07500000000000001,medium_atr_volatility_75pct_risk
+2025-11-25 00:00:00+00:00,139,87325.01,value_investing,hold,value_investing,hold,0.55,0.07500000000000001,medium_atr_volatility_75pct_risk
+2025-11-26 00:00:00+00:00,140,90468.84,value_investing,buy,value_investing,buy,0.55,0.30000000000000004,medium_atr_volatility_75pct_risk
+2025-11-27 00:00:00+00:00,141,91316.7,value_investing,buy,value_investing,buy,0.55,0.22500000000000003,medium_atr_volatility_75pct_risk
+2025-11-28 00:00:00+00:00,142,90902.7,value_investing,buy,value_investing,buy,0.55,0.16875,medium_atr_volatility_75pct_risk
+2025-11-29 00:00:00+00:00,143,90828.06,value_investing,buy,value_investing,buy,0.55,0.12656250000000002,medium_atr_volatility_75pct_risk
+2025-11-30 00:00:00+00:00,144,90369.51,value_investing,buy,value_investing,buy,0.55,0.09492187500000002,medium_atr_volatility_75pct_risk
+2025-12-01 00:00:00+00:00,145,86282.36,value_investing,buy,value_investing,buy,0.55,0.30000000000000004,medium_atr_volatility_75pct_risk
+2025-12-02 00:00:00+00:00,146,91308.05,value_investing,buy,value_investing,hold,0.55,0.11250000000000002,medium_atr_volatility_75pct_risk; trade_cooldown_1_of_3
+2025-12-03 00:00:00+00:00,147,93453.84,value_investing,hold,value_investing,hold,0.55,0.084375,medium_atr_volatility_75pct_risk
+2025-12-14 00:00:00+00:00,158,88171.61,value_investing,hold,value_investing,hold,0.55,0.44999999999999996,medium_atr_volatility_75pct_risk
+2025-12-15 00:00:00+00:00,159,86417.5,value_investing,hold,value_investing,hold,0.55,0.33749999999999997,medium_atr_volatility_75pct_risk
+2025-12-16 00:00:00+00:00,160,87854.01,value_investing,buy,value_investing,hold,0.55,0.3,trade_cooldown_2_of_3
+2025-12-17 00:00:00+00:00,161,86209.77,value_investing,hold,value_investing,hold,0.55,0.22499999999999998,medium_atr_volatility_75pct_risk
+2025-12-18 00:00:00+00:00,162,85460.02,value_investing,hold,value_investing,hold,0.55,0.16874999999999998,medium_atr_volatility_75pct_risk
+2025-12-19 00:00:00+00:00,163,88092.65,value_investing,hold,value_investing,hold,0.55,0.1265625,medium_atr_volatility_75pct_risk
+2026-01-20 00:00:00+00:00,195,88310.6,value_investing,buy,value_investing,hold,0.55,0.3,trade_cooldown_2_of_3
+2026-01-26 00:00:00+00:00,201,88250.01,value_investing,buy,value_investing,hold,0.55,0.3,trade_cooldown_1_of_3
+2026-01-30 00:00:00+00:00,205,84110.99,value_investing,buy,value_investing,hold,0.55,0.3,trade_cooldown_1_of_3
+2026-01-31 00:00:00+00:00,206,78648.0,value_investing,hold,value_investing,hold,0.55,0.22499999999999998,medium_atr_volatility_75pct_risk
+2026-02-01 00:00:00+00:00,207,76895.53,value_investing,hold,value_investing,hold,0.55,0.16874999999999998,medium_atr_volatility_75pct_risk
+2026-02-02 00:00:00+00:00,208,78666.85,value_investing,hold,value_investing,hold,0.55,0.1265625,medium_atr_volatility_75pct_risk
+2026-02-03 00:00:00+00:00,209,75661.49,value_investing,hold,value_investing,hold,0.55,0.09492187499999999,medium_atr_volatility_75pct_risk
+2026-02-04 00:00:00+00:00,210,72998.0,value_investing,buy,value_investing,hold,0.55,0.15000000000000002,medium_atr_volatility_75pct_risk; trade_cooldown_1_of_3
+2026-02-05 00:00:00+00:00,211,62791.0,value_investing,hold,value_investing,hold,0.55,0.07500000000000001,high_atr_volatility_50pct_risk
+2026-02-06 00:00:00+00:00,212,70527.7,value_investing,hold,value_investing,hold,0.55,0.05,high_atr_volatility_50pct_risk
+2026-02-07 00:00:00+00:00,213,69244.74,value_investing,hold,value_investing,hold,0.55,0.05,high_atr_volatility_50pct_risk
+2026-02-08 00:00:00+00:00,214,70279.33,value_investing,hold,value_investing,hold,0.55,0.05,high_atr_volatility_50pct_risk
+2026-02-09 00:00:00+00:00,215,70101.99,value_investing,buy,value_investing,buy,0.55,0.125,high_atr_volatility_50pct_risk
+2026-02-10 00:00:00+00:00,216,68803.65,value_investing,buy,value_investing,buy,0.55,0.0625,high_atr_volatility_50pct_risk
+2026-02-11 00:00:00+00:00,217,67024.93,value_investing,buy,value_investing,buy,0.55,0.05,high_atr_volatility_50pct_risk
+2026-02-12 00:00:00+00:00,218,66208.0,value_investing,buy,value_investing,hold,0.55,0.025,high_atr_volatility_50pct_risk; trade_cooldown_1_of_3
+2026-02-13 00:00:00+00:00,219,68812.0,value_investing,hold,value_investing,hold,0.55,0.05,high_atr_volatility_50pct_risk
+2026-02-14 00:00:00+00:00,220,69786.96,value_investing,buy,value_investing,buy,0.55,0.125,high_atr_volatility_50pct_risk
+2026-02-15 00:00:00+00:00,221,68792.0,value_investing,buy,value_investing,buy,0.55,0.0625,high_atr_volatility_50pct_risk
+2026-02-16 00:00:00+00:00,222,68858.13,value_investing,buy,value_investing,buy,0.55,0.05,high_atr_volatility_50pct_risk
+2026-02-17 00:00:00+00:00,223,67466.7,value_investing,buy,value_investing,buy,0.55,0.05,high_atr_volatility_50pct_risk
+2026-02-18 00:00:00+00:00,224,66419.79,value_investing,buy,value_investing,hold,0.55,0.025,high_atr_volatility_50pct_risk; trade_cooldown_1_of_3
+2026-02-19 00:00:00+00:00,225,66972.5,value_investing,hold,value_investing,hold,0.55,0.30000000000000004,medium_atr_volatility_75pct_risk
+2026-02-20 00:00:00+00:00,226,67984.42,value_investing,hold,value_investing,hold,0.55,0.22500000000000003,medium_atr_volatility_75pct_risk
+2026-02-24 00:00:00+00:00,230,64068.33,value_investing,buy,value_investing,hold,0.55,0.3,trade_cooldown_1_of_3
+2026-02-28 00:00:00+00:00,234,66967.85,value_investing,hold,value_investing,hold,0.55,0.22499999999999998,medium_atr_volatility_75pct_risk
+2026-03-01 00:00:00+00:00,235,65769.0,value_investing,buy,value_investing,hold,0.55,0.15000000000000002,medium_atr_volatility_75pct_risk; trade_cooldown_2_of_3
+2026-03-02 00:00:00+00:00,236,68832.01,value_investing,hold,value_investing,hold,0.55,0.11250000000000002,medium_atr_volatility_75pct_risk
+2026-03-03 00:00:00+00:00,237,68335.99,value_investing,hold,value_investing,hold,0.55,0.084375,medium_atr_volatility_75pct_risk
+2026-03-04 00:00:00+00:00,238,72683.26,value_investing,hold,value_investing,hold,0.55,0.07500000000000001,medium_atr_volatility_75pct_risk
+2026-03-05 00:00:00+00:00,239,70887.6,value_investing,hold,value_investing,hold,0.55,0.07500000000000001,medium_atr_volatility_75pct_risk
+2026-03-06 00:00:00+00:00,240,68108.24,value_investing,hold,value_investing,hold,0.55,0.30000000000000004,medium_atr_volatility_75pct_risk
+2026-03-07 00:00:00+00:00,241,67259.62,value_investing,hold,value_investing,hold,0.55,0.22500000000000003,medium_atr_volatility_75pct_risk
+2026-03-08 00:00:00+00:00,242,65970.56,value_investing,hold,value_investing,hold,0.55,0.16875,medium_atr_volatility_75pct_risk
+2026-03-09 00:00:00+00:00,243,68432.17,value_investing,hold,value_investing,hold,0.55,0.12656250000000002,medium_atr_volatility_75pct_risk
+2026-03-10 00:00:00+00:00,244,69960.83,value_investing,hold,value_investing,hold,0.55,0.09492187500000002,medium_atr_volatility_75pct_risk
+2026-03-11 00:00:00+00:00,245,70208.0,value_investing,hold,value_investing,hold,0.55,0.30000000000000004,medium_atr_volatility_75pct_risk
+2026-03-12 00:00:00+00:00,246,70531.56,value_investing,hold,value_investing,hold,0.55,0.22500000000000003,medium_atr_volatility_75pct_risk
+2026-03-13 00:00:00+00:00,247,70944.33,value_investing,hold,value_investing,hold,0.55,0.16875,medium_atr_volatility_75pct_risk
+2026-03-14 00:00:00+00:00,248,71232.02,value_investing,hold,value_investing,hold,0.55,0.12656250000000002,medium_atr_volatility_75pct_risk
+2026-03-15 00:00:00+00:00,249,72830.01,value_investing,hold,value_investing,hold,0.55,0.09492187500000002,medium_atr_volatility_75pct_risk
+2026-03-27 00:00:00+00:00,261,66353.34,value_investing,hold,value_investing,hold,0.55,0.44999999999999996,medium_atr_volatility_75pct_risk
+2026-03-28 00:00:00+00:00,262,66320.15,value_investing,hold,value_investing,hold,0.55,0.33749999999999997,medium_atr_volatility_75pct_risk
+2026-03-29 00:00:00+00:00,263,65956.94,value_investing,hold,value_investing,hold,0.55,0.253125,medium_atr_volatility_75pct_risk
+2026-03-30 00:00:00+00:00,264,66737.18,value_investing,hold,value_investing,hold,0.55,0.18984374999999998,medium_atr_volatility_75pct_risk

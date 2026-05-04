@@ -3,11 +3,18 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "bitcoin-hybrid-llm-quant-mlops"
+name = "bitcoin-trading-agent"
 version = "0.1.0"
-description = "Dockerized MLOps pipeline for a hybrid LLM + quantitative Bitcoin trading strategy"
+description = "Hybrid LLM plus quantitative Bitcoin trading pipeline"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+  "fastapi>=0.110,<1.0",
+  "uvicorn[standard]>=0.27,<1.0",
+  "flask>=3.0,<4.0",
+  "pandas>=2.0,<3.0",
+  "numpy>=1.24,<3.0",
+  "requests>=2.31,<3.0",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -15,3 +22,4 @@ where = ["src"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+addopts = "-q"

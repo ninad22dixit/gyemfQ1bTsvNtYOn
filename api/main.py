@@ -1,63 +1,101 @@
+"""FastAPI service for exposing the latest strategy outputs."""
 from __future__ import annotations
 
+import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import pandas as pd
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi.openapi.utils import get_openapi
 
-from trading_pipeline.config_manager import load_config, refresh_config_from_google_sheet
-from trading_pipeline.pipeline import run_full_pipeline
-from trading_pipeline.strategy_core import heuristic_decision, prepare_feature_table
+from trading_pipeline.pipeline import run_pipeline
 
-app = FastAPI(title="Bitcoin Hybrid LLM + Quant MLOps API", version="1.0.0")
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+OUTPUT_DIR = Path("outputs")
 
-
-class Candle(BaseModel):
-    time: Optional[str] = None
-    open: float
-    high: float
-    low: float
-    close: float
-    volume: float
+app = FastAPI(
+    title="Bitcoin Trading Agent API",
+    version="0.1.0",
+    description=(
+        "API for running the local Bitcoin trading pipeline and reading the latest "
+        "summary/equity outputs."
+    ),
+)
 
 
-class DecisionRequest(BaseModel):
-    candles: List[Candle]
+def _clean_openapi_schema() -> dict[str, Any]:
+    """Generate OpenAPI docs without FastAPI's default validation-error schema noise.
+
+    FastAPI automatically adds HTTPValidationError and ValidationError schemas when
+    an endpoint has query parameters. They are not application errors, but they can
+    look alarming in Swagger UI. This custom schema removes those default 422 docs.
+    """
+    if app.openapi_schema:
+        return app.openapi_schema
+
+    schema = get_openapi(
+        title=app.title,
+        version=app.version,
+        description=app.description,
+        routes=app.routes,
+    )
+
+    components = schema.get("components", {}).get("schemas", {})
+    components.pop("HTTPValidationError", None)
+    components.pop("ValidationError", None)
+
+    for path_item in schema.get("paths", {}).values():
+        for operation in path_item.values():
+            if isinstance(operation, dict):
+                operation.get("responses", {}).pop("422", None)
+
+    app.openapi_schema = schema
+    return app.openapi_schema
 
 
-@app.get("/health")
-def health() -> Dict[str, str]:
+app.openapi = _clean_openapi_schema  # type: ignore[method-assign]
+
+
+@app.get("/", tags=["status"])
+def root() -> dict[str, str]:
+    return {
+        "message": "Bitcoin Trading Agent API",
+        "docs": "/docs",
+        "health": "/health",
+        "run_pipeline": "POST /run",
+        "summary": "/summary",
+        "equity": "/equity",
+    }
+
+
+@app.get("/health", tags=["status"])
+def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.post("/config/refresh")
-def refresh_config() -> Dict[str, Any]:
-    return refresh_config_from_google_sheet()
+@app.post("/run", tags=["pipeline"])
+def run_backtest(use_live_data: bool = False) -> dict[str, Any]:
+    """Run a fresh pipeline job.
+
+    Set ``use_live_data=true`` only when the data-fetching code and internet access
+    are available. The default demo mode uses local/sample data so Docker can run
+    fully offline.
+    """
+    return run_pipeline(output_dir=str(OUTPUT_DIR), use_live_data=use_live_data)
 
 
-@app.get("/summary")
-def latest_summary() -> Dict[str, Any]:
-    path = PROJECT_ROOT / "reports" / "latest_run" / "summary.json"
+@app.get("/summary", tags=["outputs"])
+def summary() -> dict[str, Any]:
+    path = OUTPUT_DIR / "summary.json"
     if not path.exists():
         raise HTTPException(status_code=404, detail="No backtest summary found. Run the pipeline first.")
-    return pd.read_json(path, typ="series").to_dict()
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
-@app.post("/backtest/run")
-def run_backtest_now() -> Dict[str, Any]:
-    return run_full_pipeline(refresh_config=True)
-
-
-@app.post("/decision")
-def decision(request: DecisionRequest) -> Dict[str, Any]:
-    if not request.candles:
-        raise HTTPException(status_code=400, detail="At least one candle is required.")
-    df = pd.DataFrame([c.model_dump() for c in request.candles])
-    if "time" not in df or df["time"].isna().all():
-        df["time"] = pd.date_range(end=pd.Timestamp.utcnow(), periods=len(df), freq="D")
-    features = prepare_feature_table(df)
-    row = features.iloc[-1]
-    return heuristic_decision(row)
+@app.get("/equity", tags=["outputs"])
+def equity(limit: int = 50) -> list[dict[str, Any]]:
+    path = OUTPUT_DIR / "equity_curve.csv"
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="No equity curve found. Run the pipeline first.")
+    limit = max(1, min(limit, 500))
+    return pd.read_csv(path).tail(limit).to_dict(orient="records")

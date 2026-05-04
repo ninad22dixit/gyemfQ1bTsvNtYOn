@@ -1,0 +1,6 @@
+{
+  "use_llm": false,
+  "initial_budget": 100000,
+  "days_back": 180,
+  "min_rows_before_trading": 50
+}
