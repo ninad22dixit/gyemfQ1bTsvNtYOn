@@ -1,0 +1,4 @@
+-r api.txt
+-r monitoring.txt
+dvc>=3.45
+pytest>=8.0

@@ -1,0 +1,2 @@
+project: bitcoin_hybrid_llm_quant_mlops
+config_source: GOOGLE_SHEET_CSV_URL or config/default_config.json

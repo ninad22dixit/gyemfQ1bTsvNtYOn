@@ -1,0 +1,4 @@
+# Development/runtime requirements excluding Airflow.
+# Airflow pins Flask<2.3 internally, while the monitoring app uses Flask>=3.
+# Install Airflow only inside the dedicated Airflow container using requirements/airflow.txt.
+-r requirements/dev.txt

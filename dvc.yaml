@@ -1,0 +1,19 @@
+stages:
+  refresh_config:
+    cmd: python scripts/refresh_config.py
+    deps:
+      - scripts/refresh_config.py
+      - src/trading_pipeline/config_manager.py
+      - config/default_config.json
+    outs:
+      - config/config_cache.json
+  run_pipeline:
+    cmd: python scripts/run_pipeline.py
+    deps:
+      - scripts/run_pipeline.py
+      - src/trading_pipeline
+      - config/config_cache.json
+    outs:
+      - data/raw/btc_candles.csv
+      - data/processed/features.csv
+      - reports/latest_run

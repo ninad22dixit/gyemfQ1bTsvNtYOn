@@ -1,0 +1,56 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: bitcoin-mlops-api
+    environment:
+      - PYTHONPATH=/app/src
+      - GOOGLE_SHEET_CSV_URL=${GOOGLE_SHEET_CSV_URL:-}
+      - MLFLOW_TRACKING_URI=file:/app/reports/mlruns
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+      - ./config:/app/config
+    ports:
+      - "8000:8000"
+
+  monitoring:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitoring
+    container_name: bitcoin-mlops-monitoring
+    volumes:
+      - ./reports:/app/reports
+    ports:
+      - "5001:5000"
+
+  mlflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.mlflow
+    container_name: bitcoin-mlops-mlflow
+    volumes:
+      - ./reports:/app/reports
+    ports:
+      - "5000:5000"
+
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    container_name: bitcoin-mlops-airflow
+    environment:
+      - PYTHONPATH=/app/src
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////app/airflow/airflow.db
+      - GOOGLE_SHEET_CSV_URL=${GOOGLE_SHEET_CSV_URL:-}
+    volumes:
+      - ./dags:/app/dags
+      - ./data:/app/data
+      - ./reports:/app/reports
+      - ./config:/app/config
+      - ./airflow:/app/airflow
+    ports:
+      - "8080:8080"

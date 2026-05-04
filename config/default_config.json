@@ -1,0 +1,16 @@
+{
+  "product_id": "BTC-USD",
+  "granularity": 86400,
+  "days_back": 300,
+  "initial_budget": 100000.0,
+  "use_llm": false,
+  "ollama_url": "http://ollama:11434/api/generate",
+  "ollama_model": "llama3.2:3b",
+  "llm_timeout_sec": 60,
+  "llm_every_n_candles": 5,
+  "min_rows_before_trading": 60,
+  "fee_rate": 0.001,
+  "max_portfolio_drawdown_pause": 0.25,
+  "dca_budget_fraction": 0.75,
+  "swing_budget_fraction": 0.25
+}

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bitcoin-hybrid-llm-quant-mlops"
+version = "0.1.0"
+description = "Dockerized MLOps pipeline for a hybrid LLM + quantitative Bitcoin trading strategy"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
