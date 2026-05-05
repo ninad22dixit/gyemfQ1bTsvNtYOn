@@ -1,0 +1,13 @@
+pyproject.toml
+src/bitcoin_trading_agent.egg-info/PKG-INFO
+src/bitcoin_trading_agent.egg-info/SOURCES.txt
+src/bitcoin_trading_agent.egg-info/dependency_links.txt
+src/bitcoin_trading_agent.egg-info/requires.txt
+src/bitcoin_trading_agent.egg-info/top_level.txt
+src/trading_pipeline/__init__.py
+src/trading_pipeline/config_manager.py
+src/trading_pipeline/pipeline.py
+src/trading_pipeline/strategy_core.py
+tests/test_config.py
+tests/test_features.py
+tests/test_strategy_core.py

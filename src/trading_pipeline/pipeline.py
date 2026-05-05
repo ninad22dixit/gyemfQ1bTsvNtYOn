@@ -13,8 +13,8 @@ try:
 except Exception:  # MLflow is optional for local/unit-test usage.
     mlflow = None
 
-from trading_pipeline.config_manager import load_config
-from trading_pipeline.strategy_core import (
+from src.trading_pipeline.config_manager import load_config
+from src.trading_pipeline.strategy_core import (
     CONFIG,
     get_btc_historical_candles,
     prepare_feature_table,

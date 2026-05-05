@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile.mlflow
     container_name: btc_mlflow
     ports:
-      - "5000:5000"
+      - "5001:5000"
     volumes:
       - ./mlflow:/mlflow
     command: >
@@ -14,15 +14,14 @@ services:
              --host 0.0.0.0
              --port 5000
              --backend-store-uri sqlite:////mlflow/mlflow.db
-             --default-artifact-root /mlflow/mlruns
-             --serve-artifacts"
+             --default-artifact-root file:///mlflow/mlruns"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000', timeout=3)\""]
+      test: [ "CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health', timeout=3)\"" ]
       interval: 15s
       timeout: 5s
       retries: 10
-      start_period: 20s
+      start_period: 30s
 
   app:
     build:

@@ -1,40 +1,53 @@
-# Running the Docker portals
+# Patched Bitcoin Trading Agent
 
-Start from a clean state:
+This patched version repairs corrupted one-line Python/config files, isolates the Airflow Flask dependency conflict, and makes the project locally runnable.
+
+## Run locally
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venvScriptsactivate
+pip install -r requirements.txt
+```
+
+## Docker
+
+```bash
+docker compose up --build pipeline
+docker compose up --build api monitoring mlflow
+```
+
+FastAPI: [http://localhost:8000/docs](http://localhost:8000/docs)  
+Monitoring: [http://localhost:5000](http://localhost:5000)  
+MLflow: [http://localhost:5001](http://localhost:5001)
+
+## Docker run instructions
+
+Start every service from the repo root:
 
 ```bash
 docker compose down -v --remove-orphans
 docker compose up --build
 ```
 
-Open these URLs:
+Open:
 
-- FastAPI: http://localhost:8000/docs
-- MLflow: http://localhost:5000
-- Flask monitoring: http://localhost:8050
-- Airflow: http://localhost:8080
+-   FastAPI docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+-   FastAPI root: [http://localhost:8000/](http://localhost:8000/)
+-   MLflow: [http://localhost:5000](http://localhost:5000)
+-   Monitoring dashboard: [http://localhost:8050](http://localhost:8050)
+-   Airflow: [http://localhost:8080](http://localhost:8080)
 
-Airflow login:
-
-- Username: `admin`
-- Password: `admin`
-
-Trigger a fresh pipeline run:
+Run a fresh pipeline execution and log results to MLflow:
 
 ```bash
 docker compose run --rm app python -m trading_pipeline.pipeline
 ```
 
-Check service status:
+Or trigger it through FastAPI:
 
 ```bash
-docker compose ps
+curl -X POST "http://localhost:8000/run?use_live_data=false"
 ```
 
-View logs if a portal does not open:
-
-```bash
-docker compose logs -f mlflow
-docker compose logs -f airflow-webserver
-docker compose logs -f airflow-scheduler
-```
+Use `use_live_data=true` only when you want Coinbase candles instead of the built-in synthetic demo data.

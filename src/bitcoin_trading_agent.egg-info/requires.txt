@@ -1,0 +1,6 @@
+fastapi<1.0,>=0.110
+uvicorn[standard]<1.0,>=0.27
+flask<4.0,>=3.0
+pandas<3.0,>=2.0
+numpy<3.0,>=1.24
+requests<3.0,>=2.31
