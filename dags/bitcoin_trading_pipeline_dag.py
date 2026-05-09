@@ -7,7 +7,7 @@ from airflow.decorators import dag, task
 
 @dag(
     dag_id="bitcoin_hybrid_llm_quant_pipeline",
-    start_date=datetime(2024, 1, 1),
+    start_date=datetime(2026, 5, 5),
     schedule="@hourly",
     catchup=False,
     tags=["bitcoin", "mlops", "mlflow", "dvc"],

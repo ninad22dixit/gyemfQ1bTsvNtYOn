@@ -2,6 +2,10 @@ __pycache__/
 .pytest_cache/
 *.pyc
 .env
+env_btc/
+config/*service-account*.json
+config/bitcoin-trading-agent-*.json
+config/*credentials*.json
 outputs/
 mlruns/
 mlflow.db

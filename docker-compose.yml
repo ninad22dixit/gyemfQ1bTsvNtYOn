@@ -5,16 +5,12 @@ services:
       dockerfile: Dockerfile.mlflow
     container_name: btc_mlflow
     ports:
-      - "5001:5000"
+      - "5000:5000"
     volumes:
       - ./mlflow:/mlflow
     command: >
       sh -c "mkdir -p /mlflow/mlruns &&
-             mlflow server
-             --host 0.0.0.0
-             --port 5000
-             --backend-store-uri sqlite:////mlflow/mlflow.db
-             --default-artifact-root file:///mlflow/mlruns"
+             exec mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:////mlflow/mlflow.db --default-artifact-root file:///mlflow/mlruns --serve-artifacts"
     restart: unless-stopped
     healthcheck:
       test: [ "CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health', timeout=3)\"" ]
@@ -30,9 +26,12 @@ services:
     volumes:
       - ./outputs:/app/outputs
       - ./config:/app/config
+      - ./data:/app/data
+      - ./reports:/app/reports
     environment:
       - PYTHONPATH=/app/src
       - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - GIT_PYTHON_REFRESH=quiet
     depends_on:
       mlflow:
         condition: service_started
@@ -50,6 +49,7 @@ services:
     environment:
       - PYTHONPATH=/app/src
       - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - GIT_PYTHON_REFRESH=quiet
     depends_on:
       mlflow:
         condition: service_started
@@ -78,6 +78,8 @@ services:
     volumes:
       - ./outputs:/app/outputs
       - ./config:/app/config
+      - ./data:/app/data
+      - ./reports:/app/reports
       - ./dags:/app/dags
       - ./airflow:/opt/airflow
     environment:
@@ -90,15 +92,10 @@ services:
       - AIRFLOW__WEBSERVER__WEB_SERVER_HOST=0.0.0.0
       - AIRFLOW__WEBSERVER__WEB_SERVER_PORT=8080
       - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - GIT_PYTHON_REFRESH=quiet
     command: >
       sh -c "airflow db migrate &&
-             airflow users create
-             --username admin
-             --password admin
-             --firstname Admin
-             --lastname User
-             --role Admin
-             --email admin@example.com || true &&
+             airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com || true &&
              exec airflow webserver --host 0.0.0.0 --port 8080"
     depends_on:
       mlflow:
@@ -113,6 +110,8 @@ services:
     volumes:
       - ./outputs:/app/outputs
       - ./config:/app/config
+      - ./data:/app/data
+      - ./reports:/app/reports
       - ./dags:/app/dags
       - ./airflow:/opt/airflow
     environment:
@@ -123,6 +122,7 @@ services:
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
       - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - GIT_PYTHON_REFRESH=quiet
     command: >
       sh -c "airflow db migrate && exec airflow scheduler"
     depends_on:

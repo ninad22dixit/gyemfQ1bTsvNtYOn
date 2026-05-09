@@ -74,7 +74,7 @@ def health() -> dict[str, str]:
 
 
 @app.post("/run", tags=["pipeline"])
-def run_backtest(use_live_data: bool = False) -> dict[str, Any]:
+def run_backtest(use_live_data: bool = True) -> dict[str, Any]:
     """Run a fresh pipeline job.
 
     Set ``use_live_data=true`` only when the data-fetching code and internet access

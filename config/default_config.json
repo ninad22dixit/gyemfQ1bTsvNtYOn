@@ -2,6 +2,7 @@
   "product_id": "BTC-USD",
   "granularity": 86400,
   "days_back": 300,
+  "allow_synthetic_fallback": true,
   "initial_budget": 100000.0,
   "use_llm": false,
   "ollama_url": "http://ollama:11434/api/generate",

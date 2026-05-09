@@ -19,7 +19,7 @@ docker compose up --build api monitoring mlflow
 
 FastAPI: [http://localhost:8000/docs](http://localhost:8000/docs)  
 Monitoring: [http://localhost:5000](http://localhost:5000)  
-MLflow: [http://localhost:5001](http://localhost:5001)
+MLflow: [http://localhost:5000](http://localhost:5001)
 
 ## Docker run instructions
 

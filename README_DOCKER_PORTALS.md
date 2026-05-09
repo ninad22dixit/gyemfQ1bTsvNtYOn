@@ -35,7 +35,7 @@ Open:
 -   FastAPI docs: [http://localhost:8000/docs](http://localhost:8000/docs)
 -   FastAPI root: [http://localhost:8000/](http://localhost:8000/)
 -   MLflow: [http://localhost:5000](http://localhost:5000)
--   Monitoring dashboard: [http://localhost:8050](http://localhost:8050)
+-   Flask Monitoring dashboard: [http://localhost:8050](http://localhost:8050)
 -   Airflow: [http://localhost:8080](http://localhost:8080)
 
 Run a fresh pipeline execution and log results to MLflow:

@@ -2,5 +2,6 @@
   "use_llm": false,
   "initial_budget": 100000,
   "days_back": 180,
+  "allow_synthetic_fallback": true,
   "min_rows_before_trading": 50
 }
