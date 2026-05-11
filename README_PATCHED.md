@@ -48,6 +48,39 @@ Or trigger it through FastAPI:
 
 ```bash
 curl -X POST "http://localhost:8000/run?use_live_data=false"
+
+```
+In Powershell:
+
+```bash
+Invoke-RestMethod -Method Post -Uri "http://localhost:8000/run?use_live_data=false"
+
 ```
 
 Use `use_live_data=true` only when you want Coinbase candles instead of the built-in synthetic demo data.
+
+## Notifications
+
+Telegram trade alerts are sent after each pipeline/backtest run for new buy or sell rows. Configure:
+
+```bash
+TELEGRAM_NOTIFICATIONS_ENABLED=true
+TELEGRAM_BOT_TOKEN=your_bot_token
+TELEGRAM_CHAT_ID=your_chat_id
+```
+
+Already-sent trades are tracked in `reports/telegram_notified.json` by default so reruns do not resend old backtest trades. Override with `TELEGRAM_NOTIFICATIONS_STATE_PATH` if needed.
+
+The weekly Gmail summary is scheduled by Airflow in `bitcoin_weekly_gmail_summary` every Monday at 9:00 AM America/Toronto time. Configure:
+
+```bash
+GMAIL_SENDER=your_gmail_address
+GMAIL_APP_PASSWORD=your_gmail_app_password
+GMAIL_RECIPIENTS=recipient@example.com
+```
+
+You can also send it manually:
+
+```bash
+PYTHONPATH=src python scripts/send_weekly_summary.py
+```

@@ -15,6 +15,7 @@ except Exception:  # MLflow is optional for local/unit-test usage.
     mlflow = None
 
 from trading_pipeline.config_manager import load_config
+from trading_pipeline.notifications import notify_trade_events
 from trading_pipeline.strategy_core import (
     CONFIG,
     get_btc_historical_candles,
@@ -121,6 +122,7 @@ def run_backtest(
     accounting_check.to_csv(out_dir / "accounting_mismatches.csv", index=False)
     with open(out_dir / "summary.json", "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2, default=str)
+    notify_trade_events(buys_df, sells_df, summary)
     return summary
 
 
@@ -159,6 +161,7 @@ def run_pipeline(config_path: Optional[str] = None, output_dir: str = "outputs",
     guardrail_df.to_csv(Path(output_dir) / "guardrail_events.csv", index=False)
     with open(Path(output_dir) / "summary.json", "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2, default=str)
+    notify_trade_events(buys_df, sells_df, summary)
     return summary
 
 
