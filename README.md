@@ -18,33 +18,26 @@ This project demonstrates an end-to-end MLOps-style workflow for a trading resea
 
 ## Architecture
 
-```text
-Google Sheet / JSON Config
-          |
-          v
-  Airflow DAG or API Trigger
-          |
-          v
-  BTC Candle Data Ingestion
-          |
-          v
-  Feature Engineering
-  RSI, MACD, EMA, ATR, volatility, drawdown, momentum
-          |
-          v
-  Hybrid LLM + Quant Strategy
-          |
-          v
-  Guardrails and Risk Controls
-          |
-          v
-  Backtest Outputs and Reports
-          |
-          +--> MLflow experiment tracking
-          +--> FastAPI endpoints
-          +--> Flask monitoring dashboard
-          +--> Telegram trade alerts
-          +--> Gmail weekly summary
+```mermaid
+flowchart TD
+    A["Configuration Sources<br/>JSON cache, environment variables, Google Sheet"] --> B["Trigger Layer<br/>Airflow schedule, FastAPI request, local script"]
+    B --> C["BTC Candle Ingestion<br/>Coinbase live data or synthetic fallback"]
+    C --> D["Feature Engineering<br/>RSI, MACD, EMA, ATR, returns, volatility, drawdown"]
+    D --> E["Hybrid Decision Engine<br/>Quant rules plus optional Ollama LLM"]
+    E --> F["Guardrails and Risk Controls<br/>schema validation, confidence checks, volatility throttle, drawdown pause"]
+    F --> G["Portfolio Backtest<br/>DCA entries, swing trades, exits, accounting checks"]
+    G --> H["Run Artifacts<br/>summary, equity curve, buys, sells, LLM decisions, guardrail events"]
+
+    H --> I["MLflow Tracking<br/>parameters and performance metrics"]
+    H --> J["FastAPI Service<br/>run pipeline, health, summary, equity"]
+    H --> K["Flask Monitoring<br/>latest portfolio summary and equity records"]
+    H --> L["Notifications<br/>Telegram trade alerts and Gmail weekly summary"]
+
+    M["Docker Compose"] --> I
+    M --> J
+    M --> K
+    M --> N["Airflow Webserver and Scheduler"]
+    N --> B
 ```
 
 ## Step-by-Step Project Flow
