@@ -10,3 +10,5 @@ outputs/
 mlruns/
 mlflow.db
 .ipynb_checkpoints
+README_DOCKER_PORTALS.md
+README_PATCHED.md

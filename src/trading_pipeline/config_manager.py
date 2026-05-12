@@ -17,7 +17,7 @@ def load_config(config_path: Optional[str] = None) -> Dict[str, Any]:
     Google-Sheets reader can refresh this JSON cache hourly and the pipeline can
     continue to read the local fallback.
     """
-    path = Path(config_path or os.getenv("CONFIG_CACHE_PATH", "config/config_cache.json"))
+    path = Path(config_path or os.getenv("CONFIG_CACHE_PATH", "config/default_config.json"))
     if not path.exists():
         return {}
     with path.open("r", encoding="utf-8") as f:

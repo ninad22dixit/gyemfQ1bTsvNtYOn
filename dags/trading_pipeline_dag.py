@@ -14,7 +14,7 @@ with DAG(
     dag_id="bitcoin_trading_pipeline",
     default_args=default_args,
     start_date=datetime(2026, 5, 5),
-    schedule_interval="*/5 * * * *",
+    schedule_interval="*/10 * * * *",
     catchup=False,
     max_active_runs=1,
 ) as dag:
