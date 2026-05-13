@@ -8,13 +8,13 @@ This project demonstrates an end-to-end MLOps-style workflow for a trading resea
 
 ## Project Highlights
 
-- **Hybrid decision engine:** combines quantitative indicators with an optional local Ollama LLM decision layer.
-- **Risk-first strategy design:** validates LLM output with schema normalization, feature whitelisting, confidence thresholds, volatility throttling, drawdown pauses, trade cooldowns, and indicator confirmation.
-- **Reproducible pipeline:** separates data ingestion, feature engineering, backtesting, output generation, and experiment logging.
-- **Production-style services:** Docker Compose runs MLflow, FastAPI, Flask monitoring, Airflow webserver, and Airflow scheduler.
-- **Monitoring and reporting:** produces equity curves, trade logs, LLM decisions, guardrail events, summaries, and notification-ready reports.
-- **Automation-ready:** supports Airflow scheduling, Google Sheet config refresh, Telegram trade alerts, and Gmail weekly reporting.
-- **Test coverage:** includes unit tests for configuration, features, notifications, accounting checks, and strategy guardrails.
+-   **Hybrid decision engine:** combines quantitative indicators with an optional local Ollama LLM decision layer.
+-   **Risk-first strategy design:** validates LLM output with schema normalization, feature whitelisting, confidence thresholds, volatility throttling, drawdown pauses, trade cooldowns, and indicator confirmation.
+-   **Reproducible pipeline:** separates data ingestion, feature engineering, backtesting, output generation, and experiment logging.
+-   **Production-style services:** Docker Compose runs MLflow, FastAPI, Flask monitoring, Airflow webserver, and Airflow scheduler.
+-   **Monitoring and reporting:** produces equity curves, trade logs, LLM decisions, guardrail events, summaries, and notification-ready reports.
+-   **Automation-ready:** supports Airflow scheduling, Google Sheet config refresh, Telegram trade alerts, and Gmail weekly reporting.
+-   **Test coverage:** includes unit tests for configuration, features, notifications, accounting checks, and strategy guardrails.
 
 ## Architecture
 
@@ -48,14 +48,14 @@ Runtime parameters are loaded from `config/default_config.json`, `config/config_
 
 Key configurable items include:
 
-- BTC product and candle granularity
-- Lookback window
-- Starting portfolio budget
-- DCA and swing-trading allocations
-- ATR, RSI, MACD, and EMA thresholds
-- LLM usage and Ollama settings
-- Drawdown pause and volatility throttling limits
-- Notification credentials
+-   BTC product and candle granularity
+-   Lookback window
+-   Starting portfolio budget
+-   DCA and swing-trading allocations
+-   ATR, RSI, MACD, and EMA thresholds
+-   LLM usage and Ollama settings
+-   Drawdown pause and volatility throttling limits
+-   Notification credentials
 
 ### 2. Data Ingestion
 
@@ -78,17 +78,17 @@ outputs/candles.csv
 
 Raw candle data is transformed into a feature table used by the strategy engine. The feature layer calculates technical indicators and market-state signals including:
 
-- Average True Range
-- RSI
-- SMA and EMA windows
-- MACD, signal, and histogram
-- 1-day, 3-day, and 7-day returns
-- 14-day volatility
-- ATR percent
-- Volume z-score
-- Distance from moving averages
-- Drawdown from rolling peak
-- Momentum score
+-   Average True Range
+-   RSI
+-   SMA and EMA windows
+-   MACD, signal, and histogram
+-   1-day, 3-day, and 7-day returns
+-   14-day volatility
+-   ATR percent
+-   Volume z-score
+-   Distance from moving averages
+-   Drawdown from rolling peak
+-   Momentum score
 
 Primary function:
 
@@ -107,20 +107,20 @@ outputs/features.csv
 
 The strategy supports two decision modes:
 
-- **Deterministic fallback:** uses RSI, MACD, EMA trend, ATR, and drawdown logic.
-- **Optional LLM mode:** calls a local Ollama model and requests structured JSON with regime, signal, confidence, selected features, risk multiplier, and reason.
+-   **Deterministic fallback:** uses RSI, MACD, EMA trend, ATR, and drawdown logic.
+-   **Optional LLM mode:** calls a local Ollama model and requests structured JSON with regime, signal, confidence, selected features, risk multiplier, and reason.
 
 Supported trading regimes:
 
-- `value_investing`
-- `swing_trading`
-- `hold`
+-   `value_investing`
+-   `swing_trading`
+-   `hold`
 
 Supported signals:
 
-- `buy`
-- `sell`
-- `hold`
+-   `buy`
+-   `sell`
+-   `hold`
 
 The LLM is intentionally optional. With `use_llm=false`, the system remains deterministic and testable.
 
@@ -130,17 +130,17 @@ Before any decision affects the portfolio, the project applies safety checks tha
 
 Implemented controls include:
 
-- JSON schema normalization
-- Allowed-feature whitelist
-- Confidence threshold for trades
-- Risk multiplier clipping
-- High-volatility risk reduction
-- Soft drawdown throttling
-- Hard drawdown pause
-- Regime persistence checks
-- Indicator confirmation
-- Minimum candles between trades
-- Position-level stop loss and take profit for swing trades
+-   JSON schema normalization
+-   Allowed-feature whitelist
+-   Confidence threshold for trades
+-   Risk multiplier clipping
+-   High-volatility risk reduction
+-   Soft drawdown throttling
+-   Hard drawdown pause
+-   Regime persistence checks
+-   Indicator confirmation
+-   Minimum candles between trades
+-   Position-level stop loss and take profit for swing trades
 
 These controls are especially important because LLM output can be inconsistent. The project treats the LLM as an advisory layer, not as an unrestricted trading authority.
 
@@ -163,15 +163,15 @@ reports/latest_run/equity_curve.csv
 
 Important summary metrics:
 
-- Initial budget
-- Final equity
-- Total return percentage
-- Maximum drawdown
-- Remaining cash
-- Open BTC
-- Realized PnL
-- Number of buys and sells
-- Portfolio pause status
+-   Initial budget
+-   Final equity
+-   Total return percentage
+-   Maximum drawdown
+-   Remaining cash
+-   Open BTC
+-   Realized PnL
+-   Number of buys and sells
+-   Portfolio pause status
 
 ### 7. MLflow Experiment Tracking
 
@@ -179,14 +179,14 @@ Each pipeline run can log parameters and metrics to MLflow. This makes it easier
 
 Tracked examples:
 
-- `use_live_data`
-- `product_id`
-- `granularity`
-- `days_back`
-- Final equity
-- Total return
-- Max drawdown
-- Realized PnL
+-   `use_live_data`
+-   `product_id`
+-   `granularity`
+-   `days_back`
+-   Final equity
+-   Total return
+-   Max drawdown
+-   Realized PnL
 
 ### 8. API and Monitoring Layer
 
@@ -219,9 +219,9 @@ The main DAG is scheduled hourly and is designed around a production-like separa
 
 The project includes notification utilities for:
 
-- Telegram trade alerts for new buy and sell events
-- De-duplication of already-sent trade alerts
-- Gmail weekly summary emails with portfolio performance metrics
+-   Telegram trade alerts for new buy and sell events
+-   De-duplication of already-sent trade alerts
+-   Gmail weekly summary emails with portfolio performance metrics
 
 Credentials are loaded from `.env` and are intentionally excluded from version control.
 
@@ -296,7 +296,7 @@ python -m venv .venv
 Windows PowerShell:
 
 ```powershell
-.\.venv\Scripts\Activate.ps1
+..venvScriptsActivate.ps1
 ```
 
 macOS/Linux:
@@ -328,10 +328,10 @@ Copy-Item .env.example .env
 
 Optional integrations:
 
-- Google Sheets config refresh
-- Telegram trade alerts
-- Gmail weekly summaries
-- Local Ollama model for LLM-assisted decisions
+-   Google Sheets config refresh
+-   Telegram trade alerts
+-   Gmail weekly summaries
+-   Local Ollama model for LLM-assisted decisions
 
 ### 5. Run the Pipeline Locally
 
@@ -357,12 +357,35 @@ docker compose up --build
 
 Open the services:
 
-| Service | URL | Purpose |
-| --- | --- | --- |
-| FastAPI | http://localhost:8000/docs | API docs and manual pipeline trigger |
-| MLflow | http://localhost:5000 | Experiment tracking |
-| Flask Monitoring | http://localhost:8050 | Latest strategy output dashboard |
-| Airflow | http://localhost:8080 | Pipeline orchestration |
+Service
+
+URL
+
+Purpose
+
+FastAPI
+
+[http://localhost:8000/docs](http://localhost:8000/docs)
+
+API docs and manual pipeline trigger
+
+MLflow
+
+[http://localhost:5000](http://localhost:5000)
+
+Experiment tracking
+
+Flask Monitoring
+
+[http://localhost:8050](http://localhost:8050)
+
+Latest strategy output dashboard
+
+Airflow
+
+[http://localhost:8080](http://localhost:8080)
+
+Pipeline orchestration
 
 Default Airflow credentials:
 
@@ -393,17 +416,17 @@ Invoke-RestMethod -Method Post -Uri "http://localhost:8000/run?use_live_data=fal
 
 This project showcases several practical engineering contributions that hiring managers and recruiters can evaluate clearly:
 
-- Built a modular Python package for a BTC trading research workflow.
-- Designed a hybrid LLM and quantitative strategy engine with deterministic fallback behavior.
-- Implemented safety guardrails that constrain LLM output before it can affect portfolio simulation.
-- Created a reproducible backtesting flow with generated artifacts for equity, trades, decisions, guardrails, and performance summaries.
-- Added MLflow tracking so experiments can be compared across parameters and runs.
-- Exposed the system through a FastAPI service with health, run, summary, and equity endpoints.
-- Built a Flask monitoring dashboard for quick inspection of the latest run.
-- Orchestrated the workflow with Airflow DAGs for scheduled config refresh, data ingestion, feature generation, and backtesting.
-- Added Telegram and Gmail notification paths for operational reporting.
-- Containerized the stack with Docker Compose across API, monitoring, MLflow, and Airflow services.
-- Wrote focused unit tests for strategy accounting, guardrails, features, configuration, and notifications.
+-   Built a modular Python package for a BTC trading research workflow.
+-   Designed a hybrid LLM and quantitative strategy engine with deterministic fallback behavior.
+-   Implemented safety guardrails that constrain LLM output before it can affect portfolio simulation.
+-   Created a reproducible backtesting flow with generated artifacts for equity, trades, decisions, guardrails, and performance summaries.
+-   Added MLflow tracking so experiments can be compared across parameters and runs.
+-   Exposed the system through a FastAPI service with health, run, summary, and equity endpoints.
+-   Built a Flask monitoring dashboard for quick inspection of the latest run.
+-   Orchestrated the workflow with Airflow DAGs for scheduled config refresh, data ingestion, feature generation, and backtesting.
+-   Added Telegram and Gmail notification paths for operational reporting.
+-   Containerized the stack with Docker Compose across API, monitoring, MLflow, and Airflow services.
+-   Wrote focused unit tests for strategy accounting, guardrails, features, configuration, and notifications.
 
 ## What This Demonstrates
 
@@ -415,13 +438,13 @@ From a business and product perspective, it presents a trading research system i
 
 ## Future Improvements
 
-- Add richer performance analytics such as Sharpe ratio, Sortino ratio, win rate, exposure, and benchmark comparison.
-- Add a persistent database for run history and dashboard queries.
-- Add authentication for deployed API and dashboard access.
-- Expand MLflow logging with artifacts, plots, and model/config versions.
-- Add CI workflows for test automation and linting.
-- Add broker-paper-trading integration behind strict safety controls.
-- Improve the monitoring UI with charts, filters, and run selection.
+-   Add richer performance analytics such as Sharpe ratio, Sortino ratio, win rate, exposure, and benchmark comparison.
+-   Add a persistent database for run history and dashboard queries.
+-   Add authentication for deployed API and dashboard access.
+-   Expand MLflow logging with artifacts, plots, and model/config versions.
+-   Add CI workflows for test automation and linting.
+-   Add broker-paper-trading integration behind strict safety controls.
+-   Improve the monitoring UI with charts, filters, and run selection.
 
 ## Conclusion
 

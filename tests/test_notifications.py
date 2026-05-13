@@ -5,6 +5,7 @@ from trading_pipeline.notifications import (
     format_trade_alert,
     notify_trade_events,
     send_gmail_summary,
+    weekly_summary_status,
 )
 
 
@@ -91,3 +92,11 @@ def test_send_gmail_summary_returns_false_without_credentials(monkeypatch):
     monkeypatch.delenv("GMAIL_RECIPIENTS", raising=False)
 
     assert send_gmail_summary("subject", "body") is False
+
+
+def test_weekly_summary_status_skips_missing_report(tmp_path):
+    status = weekly_summary_status(tmp_path / "missing")
+
+    assert status["sent"] is False
+    assert status["status"] == "skipped"
+    assert "missing report file" in status["reason"]

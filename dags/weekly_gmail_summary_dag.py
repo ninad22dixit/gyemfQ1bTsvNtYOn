@@ -14,9 +14,9 @@ from airflow.decorators import dag, task
 def weekly_gmail_summary():
     @task
     def send_summary_task():
-        from trading_pipeline.notifications import send_weekly_summary
+        from trading_pipeline.notifications import weekly_summary_status
 
-        return {"sent": send_weekly_summary("reports/latest_run")}
+        return weekly_summary_status("reports/latest_run")
 
     send_summary_task()
 

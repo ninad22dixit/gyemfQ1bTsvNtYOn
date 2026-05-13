@@ -217,6 +217,7 @@ def send_gmail_summary(
     recipients: Optional[Iterable[str]] = None,
     smtp_host: str = "smtp.gmail.com",
     smtp_port: int = 465,
+    raise_on_error: bool = False,
 ) -> bool:
     """Send a weekly summary through Gmail SMTP using an app password."""
     sender_email = sender or os.getenv("GMAIL_SENDER")
@@ -229,17 +230,42 @@ def send_gmail_summary(
     if not sender_email or not password or not recipient_list:
         return False
 
-    message = EmailMessage()
-    message["Subject"] = subject
-    message["From"] = sender_email
-    message["To"] = ", ".join(recipient_list)
-    message.set_content(body)
+    try:
+        message = EmailMessage()
+        message["Subject"] = subject
+        message["From"] = sender_email
+        message["To"] = ", ".join(recipient_list)
+        message.set_content(body)
 
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(smtp_host, smtp_port, context=context) as server:
-        server.login(sender_email, password)
-        server.send_message(message)
-    return True
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(smtp_host, smtp_port, context=context) as server:
+            server.login(sender_email, password)
+            server.send_message(message)
+        return True
+    except Exception:
+        if raise_on_error:
+            raise
+        return False
+
+
+def weekly_summary_status(report_dir: str | Path = "reports/latest_run") -> Dict[str, Any]:
+    """Build and send the weekly Gmail summary, returning Airflow-friendly status."""
+    report_path = Path(report_dir)
+    summary_path = report_path / "summary.json"
+    if not summary_path.exists():
+        return {"sent": False, "status": "skipped", "reason": f"missing report file: {summary_path}"}
+
+    subject, body = build_weekly_summary_email(report_path)
+    strict = _as_bool(os.getenv("GMAIL_SUMMARY_FAIL_ON_ERROR"), False)
+    sent = send_gmail_summary(subject, body, raise_on_error=strict)
+    if sent:
+        return {"sent": True, "status": "sent", "reason": None}
+
+    if not os.getenv("GMAIL_SENDER") or not os.getenv("GMAIL_APP_PASSWORD") or not os.getenv("GMAIL_RECIPIENTS"):
+        reason = "missing Gmail SMTP environment variables"
+    else:
+        reason = "Gmail SMTP send failed; check app password, recipient list, and network access"
+    return {"sent": False, "status": "skipped", "reason": reason}
 
 
 def send_weekly_summary(report_dir: str | Path = "reports/latest_run") -> bool:

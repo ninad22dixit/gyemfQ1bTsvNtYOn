@@ -105,6 +105,7 @@ services:
       - GMAIL_SENDER=${GMAIL_SENDER:-}
       - GMAIL_APP_PASSWORD=${GMAIL_APP_PASSWORD:-}
       - GMAIL_RECIPIENTS=${GMAIL_RECIPIENTS:-}
+      - GMAIL_SUMMARY_FAIL_ON_ERROR=${GMAIL_SUMMARY_FAIL_ON_ERROR:-false}
     command: >
       sh -c "airflow db migrate &&
              airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com || true &&
@@ -141,6 +142,7 @@ services:
       - GMAIL_SENDER=${GMAIL_SENDER:-}
       - GMAIL_APP_PASSWORD=${GMAIL_APP_PASSWORD:-}
       - GMAIL_RECIPIENTS=${GMAIL_RECIPIENTS:-}
+      - GMAIL_SUMMARY_FAIL_ON_ERROR=${GMAIL_SUMMARY_FAIL_ON_ERROR:-false}
     command: >
       sh -c "airflow db migrate && exec airflow scheduler"
     depends_on:
