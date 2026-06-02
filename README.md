@@ -6,6 +6,8 @@ This project demonstrates an end-to-end MLOps-style workflow for a trading resea
 
 > This repository is for educational and portfolio purposes. It is not financial advice and should not be used as a live trading system without additional validation, controls, and compliance review.
 
+Link to project presentation video: https://www.youtube.com/watch?v=i2R8CFPLBdQ
+
 ## Project Highlights
 
 -   **Hybrid decision engine:** combines quantitative indicators with an optional local Ollama LLM decision layer.
